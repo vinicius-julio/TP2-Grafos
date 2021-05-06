@@ -1,13 +1,20 @@
-from Metodo1 import nearestNeighbor
+from Metodo1 import nearestNeighbor, twoOPT
 from TP1.Grafo import Grafo
 from leitorTSPLib import abreTSP
 
 #nomeArq = input("Digite o nome do arquivo .tsp\n")
+nomeArq = "berlin52.tsp"
+#Abre o arquivo.tsp e converte para o formato do tp1
+abreTSP(nomeArq)
+#automaticamente abre o novo formato e cria o grafo
+g = Grafo.leArquivo(nomeArq.strip('.tsp')+".txt")
+#g = Grafo.leArquivo("d198")
 
-#abreTSP(nomeArq)
-
-#g = Grafo.leArquivo(nomeArq.strip('.tsp')+".txt")
-g = Grafo.leArquivo("berlin52.txt")
 
 #print(g.imprimeGrafo())
-print(nearestNeighbor(g))
+
+nn = nearestNeighbor(g)
+print("\nRota Nearest Neighbor:\n", nn[0],"\nCusto: ", nn[1])
+rota2 = twoOPT(g, nn[0])
+print("\nRota Otimizada 2-opt:\n",rota2[0], "\nCusto: ", rota2[1])
+

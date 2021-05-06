@@ -195,3 +195,11 @@ class Grafo:
             return f'A aresta {v1} - {v2} é ponte\n'
         else:
             return f'A aresta {v1} - {v2} não é ponte\n'
+
+    def getPesoAresta(self, v1, v2):
+        aresta = []
+        vizinhosV1 = self.listaAdj[v1]
+        for j in range(len(vizinhosV1)):
+            if (vizinhosV1[j][0] == v2):
+                aresta = vizinhosV1[j][1]
+        return aresta

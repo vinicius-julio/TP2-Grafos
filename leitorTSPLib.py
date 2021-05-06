@@ -4,11 +4,10 @@ import math
 def abreTSP(nomeArq):
     with open(nomeArq, 'r') as arqTSPLib:
         # Le o cabeçalho
-        name = arqTSPLib.readline().strip().split()[1] # NAME
+        name = arqTSPLib.readline().strip().split(':')[1].split()[0] # NAME
         fileType = arqTSPLib.readline().strip().split()[1] # TYPE
         comment = arqTSPLib.readline().strip().split()[1:] # COMMENT
         dimension = arqTSPLib.readline().strip().split()[-1]# DIMENSION
-        print(dimension)
         edgeWeightType = arqTSPLib.readline().strip().split()[1] # EDGE_WEIGHT_TYPE
         arqTSPLib.readline()
 
