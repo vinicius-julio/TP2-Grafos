@@ -9,17 +9,17 @@ class Grafo:
         self.listaAdj[u].append([v, peso]) #adiciona v e o peso na linha/vertice u
         self.listaAdj[v].append([u, peso]) #adiciona u e o peso na linha/vertice v
 
-    def imprimeGrafo(self, arqOut):
+    def imprimeGrafo(self):
         for i in range(1,self.vertices+1):
             print(f'{i}:', end='  ')
-            arqOut.write(f'{i}: ')
+            '''arqOut.write(f'{i}: ')'''
             for j in self.listaAdj[i]:
                 print(f'{j} -', end='  ')
-                arqOut.write(f'{j} - ')
+                '''arqOut.write(f'{j} - ')'''
             print('')
-            arqOut.write('\n')
+            '''arqOut.write('\n')'''
         print('')
-        arqOut.write('\n')
+        '''arqOut.write('\n')'''
 
 
     def exibeInformacoes(self, v):
