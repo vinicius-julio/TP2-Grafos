@@ -1,5 +1,4 @@
-import numpy
-
+from time import perf_counter
 import numpy as np
 
 def nearestNeighbor(grafo):
@@ -28,27 +27,16 @@ def nearestNeighbor(grafo):
         visitados.append(v)
         v = index
     custo = custoRota(grafo, H)
-    return H,custo
-    #cicloHamiltoniano/ rota devera ser escrita em arquivo
+    return H, custo
 
 
 def custoRota(grafo, rota):
     """
-    Method to return length of a tour given
-    all tour edges are part of graph
-    args:
-        tour: List of nodes of graph
-    return:
-        tourlen: int/float
-            Length of tour. If any edges is
-            missing, returns zero.
+    Função que retorna o custo da rota
+    informada
     """
     custo = 0
     for i in range(len(rota)-1):
-        '''vizinhosI = grafo.listaAdj[rota[i]]
-        for j in range(len(vizinhosI)):
-            if (vizinhosI[j][0] == rota[i+1]):
-                custo += vizinhosI[j][1]'''
         custo += grafo.getPesoAresta(rota[i], rota[i+1])
     return custo
 
@@ -76,16 +64,16 @@ def twoOPT(grafo, rota):
         custo: int/float
             custo da 2-optima rota
     """
+    tempoInicial = perf_counter()
+    tempo = 0
     n = len(rota)
-
-    # length of provided tour
+    #custo da rota
     custo = custoRota(grafo, rota)
 
-    # tracking improvement in tour
-    improved = True
+    iteracao = 0
 
-    while improved:
-        improved = False
+    while tempo <= 180 and iteracao <= 10:
+        melhoria = False
 
         for i in range(n):
             for j in range(i + 2, n - 1):
@@ -98,11 +86,16 @@ def twoOPT(grafo, rota):
 
                 # benefit from swapping i,i+1 and j,j+1
                 # with i,j and i+1,j+1
+                #se negativo, a+b tem um custo maior
+                #que c+d, logo deve trocar as arestas
                 delta = - a - b + c + d
                 if delta < 0:
                     #print(delta, i, j)
                     rota = trocaArestasTwoOPT(rota.copy(), i, j)
                     custo += delta
-                    improved = True
+                    iteracao = 0
 
-    return rota, custo
+                tempo = (perf_counter() - tempoInicial)
+        iteracao += 1
+
+    return rota, custo, tempo, iteracao
