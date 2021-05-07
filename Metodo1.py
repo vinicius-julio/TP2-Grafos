@@ -2,11 +2,19 @@ from time import perf_counter
 import numpy as np
 
 def nearestNeighbor(grafo):
+    '''
+    Função que gera a rota de um grafo
+    selecionando o vizinho mais próximo
+    não visitado
+
+    param grafo:
+    return: lista com a ordem dos vertices
+    visitados e
+    '''
     length = grafo.ordemGrafo()
     visitados = []
     H = []
-    H1 = []
-    vInicial = np.random.randint(1,length)
+    vInicial = np.random.randint(1, length)
     v = vInicial
     # v = 1
     while v not in visitados:
@@ -23,7 +31,6 @@ def nearestNeighbor(grafo):
         if custo == 100000 or index == -1:
             #se entrar nesse if significa que todos os vertices ja foram visitados
             break
-        H1.append([v, index, custo])
         visitados.append(v)
         v = index
     custo = custoRota(grafo, H)
