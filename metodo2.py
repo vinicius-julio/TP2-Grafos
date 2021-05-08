@@ -4,6 +4,16 @@ import random
 def gera_ciclo(inicio, fim, tam):
     ciclo = random.sample(range(inicio, fim + 1), tam)
     return ciclo
+def custoRota(grafo, rota):
+    """
+    Função que retorna o custo da rota
+    informada
+    """
+    custo = 0
+    for i in range(len(rota)-1):
+        custo += grafo.getPesoAresta(rota[i], rota[i+1])
+    return custo
+
 def mais_distante(matriz,ciclo_inicial):
     length = matriz.ordemGrafo()
 
@@ -17,8 +27,8 @@ def mais_distante(matriz,ciclo_inicial):
     while v not in visitados:
         distancia_vertice = -1
         custo = 1000000
-        index = -1
         vertice = -1
+        index = -1
 
         for linha in range(1, length):
             if not linha in ciclo_inicial:
@@ -29,7 +39,7 @@ def mais_distante(matriz,ciclo_inicial):
                             vertice = linha
 
         
-        H.append(vertice)
+        H.append(v)
         vizinhosV = matriz.listaAdj[vertice]
         for i in vizinhosV:
             #i é uma aresta de V, i[0] é o vértice vizinho e i[1] o custo da aresta
@@ -45,17 +55,4 @@ def mais_distante(matriz,ciclo_inicial):
     return H, custo
 
 
-       
 
-
-
-
-def custoRota(grafo, rota):
-    """
-    Função que retorna o custo da rota
-    informada
-    """
-    custo = 0
-    for i in range(len(rota)-1):
-        custo += grafo.getPesoAresta(rota[i], rota[i+1])
-    return custo
