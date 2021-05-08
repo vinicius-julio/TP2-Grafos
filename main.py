@@ -1,199 +1,104 @@
 from numpy import mean, std
-
-from Metodo1 import nearestNeighbor, twoOPT
+from Metodo1 import nearestNeighbor
 from TP1.Grafo import Grafo
 from leitorTSPLib import abreTSP
 from salvaCicloHamiltoniano import salvaCiclo
-
-#Abre o arquivo.tsp e converte para o formato do tp1
-
-abreTSP("berlin52.tsp")
-abreTSP("ch130.tsp")
-abreTSP("d190.tsp")
-g1 = Grafo.leArquivo("berlin52.txt")
-g2 = Grafo.leArquivo("ch130.txt")
-g3 = Grafo.leArquivo("d198.txt")
-
-print('''-----------------------------------
-Método 1: Nearest Neighbor + 2-Opt
------------------------------------
-''')
-print(
-    "Instância: berlin52\n"
-)
-listaCustos = []
-listaCiclos = []
-for i in range(30):
-    nn = nearestNeighbor(g1)
-    twoOpt = twoOPT(g1, nn[0])
-    custo = twoOpt[1]
-    ciclo = twoOpt[0]
-
-    listaCustos.append(custo)
-    listaCiclos.append(ciclo)
-
-melhorCusto = min(listaCustos)
-iMelhorCusto = listaCustos.index(melhorCusto)
-cicloMelhorCusto = listaCiclos[iMelhorCusto]
-
-piorCusto = max(listaCustos)
-mediaCusto = round(mean(listaCustos), 6)
-dpCusto = round(std(listaCustos), 6)
-print("Melhor Custo:", melhorCusto)
-print("Pior Custo:", piorCusto)
-print("Média do Custo:", mediaCusto)
-print("Desvio Padrão do Custo:", dpCusto)
-salvaCiclo(g1, cicloMelhorCusto, 'berlin52/CicloMetodo1.txt')
-print("----------------------------------------------------")
-
-print(
-    "Instância: ch130\n"
-)
-listaCustos = []
-listaCiclos = []
-for i in range(30):
-    nn = nearestNeighbor(g2)
-    twoOpt = twoOPT(g2, nn[0])
-    custo = twoOpt[1]
-    ciclo = twoOpt[0]
-
-    listaCustos.append(custo)
-    listaCiclos.append(ciclo)
-
-melhorCusto = min(listaCustos)
-iMelhorCusto = listaCustos.index(melhorCusto)
-cicloMelhorCusto = listaCiclos[iMelhorCusto]
-
-piorCusto = max(listaCustos)
-mediaCusto = round(mean(listaCustos), 6)
-dpCusto = round(std(listaCustos), 6)
-print("Melhor Custo:", melhorCusto)
-print("Pior Custo:", piorCusto)
-print("Média do Custo:", mediaCusto)
-print("Desvio Padrão do Custo:", dpCusto)
-salvaCiclo(g2, cicloMelhorCusto, 'ch130/CicloMetodo1.txt')
-print("----------------------------------------------------")
-
-print(
-    "Instância: d198\n"
-)
-listaCustos = []
-listaCiclos = []
-for i in range(30):
-    nn = nearestNeighbor(g3)
-    twoOpt = twoOPT(g3, nn[0])
-    custo = twoOpt[1]
-    ciclo = twoOpt[0]
-
-    listaCustos.append(custo)
-    listaCiclos.append(ciclo)
-
-melhorCusto = min(listaCustos)
-iMelhorCusto = listaCustos.index(melhorCusto)
-cicloMelhorCusto = listaCiclos[iMelhorCusto]
-
-piorCusto = max(listaCustos)
-mediaCusto = round(mean(listaCustos), 6)
-dpCusto = round(std(listaCustos), 6)
-print("Melhor Custo:", melhorCusto)
-print("Pior Custo:", piorCusto)
-print("Média do Custo:", mediaCusto)
-print("Desvio Padrão do Custo:", dpCusto)
-salvaCiclo(g3, cicloMelhorCusto, 'd198/CicloMetodo1.txt')
-print("----------------------------------------------------")
+from twoOpt import twoOPT
 
 
 
-print('''-----------------------------------
-Método 2:  + 2-Opt
------------------------------------
-''')
-print(
-    "Instância: berlin52\n"
-)
-listaCustos = []
-listaCiclos = []
-for i in range(30):
-    #seu codigo
-    '''nn = nearestNeighbor(g1)
-    twoOpt = twoOPT(g1, nn[0])
-    custo = twoOpt[1]
-    ciclo = twoOpt[0]'''
+#menu
 
-    listaCustos.append(custo)
-    listaCiclos.append(ciclo)
+opcao = 1
+while (opcao!=0):
+    nomeArq = input("Digite o nome do arquivo .tsp: ")
+    abreTSP(nomeArq)
+    g = Grafo.leArquivo(nomeArq.strip("tsp")+"txt")
+    opMetodo = 1
+    while(opMetodo!=0):
+        print("Escolha o Método:")
+        print("1 - Nearest Neighbor + 2-opt")
+        print("2 - Vertice Mais Distante + 2-opt")
+        print("0 - Voltar")
+        opMetodo = int(input())
+        if(opMetodo==1):
+            print("-----------------------------------")
+            print("Método 1: Nearest Neighbor + 2-Opt")
+            print("-----------------------------------")
+            print("Escolha o tipo de teste:")
+            print("1 - Testar uma vez")
+            print("2 - Testar 30x e exibir estatísticas")
+            print("0 - Voltar")
+            opTeste = int(input())
+            if (opTeste == 1):
+                m = nearestNeighbor(g)
+                twoOpt = twoOPT(g, m[0])
+                print("Custo: ", twoOpt[1])
+                salvaCiclo(g, twoOpt[0], nomeArq.strip(".tsp")+'/CicloMetodo1.txt')
 
-melhorCusto = min(listaCustos)
-iMelhorCusto = listaCustos.index(melhorCusto)
-cicloMelhorCusto = listaCiclos[iMelhorCusto]
+            if (opTeste == 2):
+                listaCustos = []
+                listaCiclos = []
+                for i in range(30):
+                    m = nearestNeighbor(g)
+                    twoOpt = twoOPT(g, m[0])
+                    custo = twoOpt[1]
+                    ciclo = twoOpt[0]
 
-piorCusto = max(listaCustos)
-mediaCusto = round(mean(listaCustos), 6)
-dpCusto = round(std(listaCustos), 6)
-print("Melhor Custo:", melhorCusto)
-print("Pior Custo:", piorCusto)
-print("Média do Custo:", mediaCusto)
-print("Desvio Padrão do Custo:", dpCusto)
-salvaCiclo(g1, cicloMelhorCusto, 'berlin52/CicloMetodo2.txt')
-print("----------------------------------------------------")
+                    listaCustos.append(custo)
+                    listaCiclos.append(ciclo)
 
-print(
-    "Instância: ch130\n"
-)
-listaCustos = []
-listaCiclos = []
-for i in range(30):
-    #seu codigo
-    '''
-    nn = nearestNeighbor(g2)
-    twoOpt = twoOPT(g2, nn[0])
-    custo = twoOpt[1]
-    ciclo = twoOpt[0]'''
+                melhorCusto = min(listaCustos)
+                iMelhorCusto = listaCustos.index(melhorCusto)
+                cicloMelhorCusto = listaCiclos[iMelhorCusto]
 
-    listaCustos.append(custo)
-    listaCiclos.append(ciclo)
+                piorCusto = max(listaCustos)
+                mediaCusto = round(mean(listaCustos), 6)
+                dpCusto = round(std(listaCustos), 6)
+                print("Melhor Custo:", melhorCusto)
+                print("Pior Custo:", piorCusto)
+                print("Média do Custo:", mediaCusto)
+                print("Desvio Padrão do Custo:", dpCusto)
+                salvaCiclo(g, cicloMelhorCusto, nomeArq.strip(".tsp")+'/CicloMetodo1.txt')
+                print("----------------------------------------------------")
 
-melhorCusto = min(listaCustos)
-iMelhorCusto = listaCustos.index(melhorCusto)
-cicloMelhorCusto = listaCiclos[iMelhorCusto]
+        elif (opMetodo == 2):
+            print("-----------------------------------")
+            print("Método 1: Vértice mais distante + 2-Opt")
+            print("-----------------------------------")
+            print("Escolha o tipo de teste:")
+            print("1 - Testar uma vez")
+            print("2 - Testar 30x e exibir estatísticas")
+            print("0 - Voltar")
+            opTeste = input()
+            if (opTeste == 1):
+                m = nearestNeighbor(g)
+                twoOpt = twoOPT(g, m[0])
+                print("Custo: ", twoOpt[1])
+                salvaCiclo(g, twoOpt[0], nomeArq.strip(".tsp")+'/CicloMetodo2.txt')
 
-piorCusto = max(listaCustos)
-mediaCusto = round(mean(listaCustos), 6)
-dpCusto = round(std(listaCustos), 6)
-print("Melhor Custo:", melhorCusto)
-print("Pior Custo:", piorCusto)
-print("Média do Custo:", mediaCusto)
-print("Desvio Padrão do Custo:", dpCusto)
-salvaCiclo(g2, cicloMelhorCusto, 'ch130/CicloMetodo2.txt')
-print("----------------------------------------------------")
+            if (opTeste == 2):
+                listaCustos = []
+                listaCiclos = []
+                for i in range(30):
+                    m = nearestNeighbor(g)
+                    twoOpt = twoOPT(g, m[0])
+                    custo = twoOpt[1]
+                    ciclo = twoOpt[0]
 
-print(
-    "Instância: d198\n"
-)
-listaCustos = []
-listaCiclos = []
-for i in range(30):
-    #seu codigo
-    '''
-    nn = nearestNeighbor(g3)
-    twoOpt = twoOPT(g3, nn[0])
-    custo = twoOpt[1]
-    ciclo = twoOpt[0]
-    '''
-    listaCustos.append(custo)
-    listaCiclos.append(ciclo)
+                    listaCustos.append(custo)
+                    listaCiclos.append(ciclo)
 
-melhorCusto = min(listaCustos)
-iMelhorCusto = listaCustos.index(melhorCusto)
-cicloMelhorCusto = listaCiclos[iMelhorCusto]
+                melhorCusto = min(listaCustos)
+                iMelhorCusto = listaCustos.index(melhorCusto)
+                cicloMelhorCusto = listaCiclos[iMelhorCusto]
 
-piorCusto = max(listaCustos)
-mediaCusto = round(mean(listaCustos), 6)
-dpCusto = round(std(listaCustos), 6)
-print("Melhor Custo:", melhorCusto)
-print("Pior Custo:", piorCusto)
-print("Média do Custo:", mediaCusto)
-print("Desvio Padrão do Custo:", dpCusto)
-salvaCiclo(g3, cicloMelhorCusto, 'd198/CicloMetodo2.txt')
-print("----------------------------------------------------")
-
+                piorCusto = max(listaCustos)
+                mediaCusto = round(mean(listaCustos), 6)
+                dpCusto = round(std(listaCustos), 6)
+                print("Melhor Custo:", melhorCusto)
+                print("Pior Custo:", piorCusto)
+                print("Média do Custo:", mediaCusto)
+                print("Desvio Padrão do Custo:", dpCusto)
+                salvaCiclo(g, cicloMelhorCusto, nomeArq.strip(".tsp")+'/CicloMetodo2.txt')
+                print("----------------------------------------------------")

@@ -1,4 +1,3 @@
-# Abre Arquivo
 import math
 
 def abreTSP(nomeArq):
@@ -22,7 +21,8 @@ def abreTSP(nomeArq):
 
     with open(name+'.txt', 'w') as arq:
         arq.write(dimension+'\n')
-        #calcula o peso e escreve no arquivo
+        #calcula o peso de cada aresta
+        # e escreve no arquivo
         arestaEPeso = []
         for i in range(len(vertices)):
             for j in range(len(vertices)):
