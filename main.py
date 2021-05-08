@@ -4,12 +4,14 @@ from Metodo1 import nearestNeighbor, twoOPT
 from TP1.Grafo import Grafo
 from leitorTSPLib import abreTSP
 from salvaCicloHamiltoniano import salvaCiclo
+from Metodo1 import nearestNeighbor, twoOPT
+from metodo2 import mais_distante, twoOPT
 
 #Abre o arquivo.tsp e converte para o formato do tp1
 
 abreTSP("berlin52.tsp")
 abreTSP("ch130.tsp")
-abreTSP("d190.tsp")
+abreTSP("d198.tsp")
 g1 = Grafo.leArquivo("berlin52.txt")
 g2 = Grafo.leArquivo("ch130.txt")
 g3 = Grafo.leArquivo("d198.txt")
@@ -105,7 +107,7 @@ print("----------------------------------------------------")
 
 
 print('''-----------------------------------
-Método 2:  + 2-Opt
+Método 2: Vertice mais distante + 2-Opt
 -----------------------------------
 ''')
 print(
@@ -115,10 +117,10 @@ listaCustos = []
 listaCiclos = []
 for i in range(30):
     #seu codigo
-    '''nn = nearestNeighbor(g1)
+    nn = mais_distante(g1)
     twoOpt = twoOPT(g1, nn[0])
     custo = twoOpt[1]
-    ciclo = twoOpt[0]'''
+    ciclo = twoOpt[0]
 
     listaCustos.append(custo)
     listaCiclos.append(ciclo)
@@ -144,11 +146,10 @@ listaCustos = []
 listaCiclos = []
 for i in range(30):
     #seu codigo
-    '''
-    nn = nearestNeighbor(g2)
-    twoOpt = twoOPT(g2, nn[0])
+    nn = mais_distante(g1)
+    twoOpt = twoOPT(g1, nn[0])
     custo = twoOpt[1]
-    ciclo = twoOpt[0]'''
+    ciclo = twoOpt[0]
 
     listaCustos.append(custo)
     listaCiclos.append(ciclo)
@@ -174,12 +175,10 @@ listaCustos = []
 listaCiclos = []
 for i in range(30):
     #seu codigo
-    '''
-    nn = nearestNeighbor(g3)
-    twoOpt = twoOPT(g3, nn[0])
+    nn = mais_distante(g1)
+    twoOpt = twoOPT(g1, nn[0])
     custo = twoOpt[1]
     ciclo = twoOpt[0]
-    '''
     listaCustos.append(custo)
     listaCiclos.append(ciclo)
 
